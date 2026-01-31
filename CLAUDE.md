@@ -13,8 +13,9 @@ This project uses an existing open-source budget tracker as a starting template,
 ### Template Repository
 
 - **Source:** `https://github.com/chiragyadav2003/Budget-Tracker.git`
-- **Stack:** Next.js 14, TypeScript, Tailwind CSS, Shadcn UI, Prisma ORM, PostgreSQL, Clerk Auth, Recharts
+- **Stack:** Next.js 14, TypeScript, Tailwind CSS, Shadcn UI, Prisma ORM, PostgreSQL, Clerk Auth (will be replaced with Supabase), Recharts
 - **Features out of the box:** User authentication, expense/income tracking, category management, transaction history with filtering/sorting, monthly/yearly charts, CSV export, dark/light theme, responsive design
+- **Auth migration:** The template ships with Clerk for auth. During setup, replace Clerk with Supabase Auth so that Tiffany only needs one account (Supabase) for both the database and login. See Phase 4 for details.
 
 ## Setup Workflow
 
@@ -36,17 +37,20 @@ When Tiffany asks to set up her budget tracker (or says something like "let's ge
 
 Before making any changes, read and understand the full codebase structure. Key files to analyze:
 
-- `app/layout.tsx` — root layout, app metadata, Clerk provider
+- `app/layout.tsx` — root layout, app metadata, Clerk provider (will be replaced)
 - `app/globals.css` — CSS variables (color theme)
+- `app/(auth)/` — Clerk sign-in/sign-up pages (will be replaced)
 - `tailwind.config.ts` — Tailwind theme configuration
 - `components.json` — Shadcn UI config (base color)
 - `components/Logo.tsx` — app logo/branding
-- `components/Navbar.tsx` — navigation bar
+- `components/Navbar.tsx` — navigation bar (uses Clerk UserButton, will be updated)
 - `lib/currencies.ts` — supported currencies
 - `lib/constants.ts` — app constants (date range limits, etc.)
 - `prisma/schema.prisma` — database schema
-- `middleware.ts` — auth middleware
+- `middleware.ts` — Clerk auth middleware (will be replaced with Supabase middleware)
 - `.env` or `.env.local` — environment variables (will need to be created)
+
+Identify all files that import from `@clerk/nextjs` — these will all need to be updated during the Supabase migration in Phase 4.
 
 ### Phase 3: Enter Plan Mode and Ask Tiffany Questions
 
@@ -75,11 +79,15 @@ Show her the current color scheme and ask:
 - What income categories? Suggest: Salary, Freelance, Gifts, Other
 - She can always add/remove categories later in the app.
 
-**Group 5 — Services Setup:**
-Explain each service simply, then walk her through setup:
+**Group 5 — Supabase Setup:**
+Tiffany only needs one account for both her database and login: Supabase. Explain it simply: "Supabase is a free service that stores your data and handles your app's login system — all in one place."
 
-- **Database:** She needs a free PostgreSQL database. Recommend Neon (neon.tech) — it's free, no credit card required, and takes 2 minutes to set up. Walk her through creating an account and getting the connection string.
-- **Authentication:** She needs a free Clerk account (clerk.com) for login functionality. Walk her through creating a project and getting the API keys.
+Walk her through creating a Supabase project:
+1. Go to [supabase.com](https://supabase.com) and sign up (free, no credit card required).
+2. Click **New project**.
+3. Pick a project name (e.g., "budget-with-tiff"), set a database password (have her save it somewhere safe), and choose a region close to her.
+4. Once the project is created, go to **Settings > Database** to find the connection strings (URI format). She needs the **Connection string** (with connection pooling) and the **Direct connection** string.
+5. Then go to **Settings > API** to find the **Project URL** and **anon/public key**.
 
 After collecting her answers, present a clear plan of all the changes you'll make and ask her to approve it.
 
@@ -105,21 +113,48 @@ Once Tiffany approves the plan, make all the changes:
 - If her currency is already in the list, no changes needed (she picks it in the wizard).
 - If she wants a currency not in the list, add it to `lib/currencies.ts`.
 
+**Migrate Auth from Clerk to Supabase:**
+
+This is the most significant change. Replace Clerk with Supabase Auth so Tiffany only needs one service account.
+
+1. Uninstall Clerk: `npm uninstall @clerk/nextjs`
+2. Install Supabase packages: `npm install @supabase/supabase-js @supabase/ssr`
+3. Create a Supabase client utility (e.g., `lib/supabase/client.ts` for browser, `lib/supabase/server.ts` for server components/actions) following the Supabase + Next.js App Router pattern.
+4. Replace `middleware.ts` — remove Clerk middleware, add Supabase session refresh middleware using `@supabase/ssr`.
+5. Replace the `ClerkProvider` wrapper in `app/layout.tsx` with Supabase session handling.
+6. Replace the auth pages in `app/(auth)/`:
+   - Replace Clerk's `<SignIn>` and `<SignUp>` components with Supabase auth forms (email/password sign-up and sign-in). Build simple, clean forms using the existing Shadcn UI components (Input, Button, Card) to match the app's design.
+   - Add a sign-out action.
+7. Replace all `currentUser()` calls (from `@clerk/nextjs`) with Supabase session checks:
+   - In server components and server actions: use the server Supabase client to get the session and user ID.
+   - Search the entire codebase for `@clerk/nextjs` imports and replace every occurrence.
+8. Replace the `<UserButton>` component in `components/Navbar.tsx` with a simple user menu (show email, sign-out button) using Shadcn UI's DropdownMenu.
+9. The `userId` field used throughout the app (in Prisma queries, server actions, API routes) should now come from `session.user.id` via Supabase instead of Clerk.
+
 **Environment Variables:**
 
-- Create a `.env.local` file with the database and Clerk credentials she provides:
+- Create a `.env.local` file with the Supabase credentials she provides:
 
   ```
-  POSTGRES_PRISMA_URL=<her-neon-connection-string>
-  POSTGRES_URL_NON_POOLING=<her-neon-direct-connection-string>
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<her-clerk-publishable-key>
-  CLERK_SECRET_KEY=<her-clerk-secret-key>
+  DATABASE_URL=<her-supabase-connection-string-pooled>
+  DIRECT_URL=<her-supabase-direct-connection-string>
+  NEXT_PUBLIC_SUPABASE_URL=<her-supabase-project-url>
+  NEXT_PUBLIC_SUPABASE_ANON_KEY=<her-supabase-anon-key>
+  ```
+
+- Update `prisma/schema.prisma` to use the new env var names:
+  ```prisma
+  datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+  }
   ```
 
 **Database:**
 
 - Run `npx prisma generate` to generate the Prisma client.
-- Run `npx prisma db push` to create the database tables.
+- Run `npx prisma db push` to create the database tables in Supabase's PostgreSQL.
 
 **Launch:**
 
@@ -160,24 +195,24 @@ Vercel will build and deploy the app. It will output a preview URL.
 The deployed app needs the same environment variables as local. Run these commands (using the values from her `.env.local`):
 
 ```
-vercel env add POSTGRES_PRISMA_URL production
-vercel env add POSTGRES_URL_NON_POOLING production
-vercel env add NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY production
-vercel env add CLERK_SECRET_KEY production
+vercel env add DATABASE_URL production
+vercel env add DIRECT_URL production
+vercel env add NEXT_PUBLIC_SUPABASE_URL production
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY production
 ```
 
-Each command will prompt for the value. Walk Tiffany through pasting each one. Explain: "These are the same connection codes we set up earlier — we're just telling the live version of your app how to find your database and login service."
+Each command will prompt for the value. Walk Tiffany through pasting each one. Explain: "These are the same connection codes we set up earlier — we're just telling the live version of your app how to find your database and login system."
 
 **Step 5 — Deploy to production:**
 
 Run `vercel --prod` to push a production deployment with the environment variables active.
 
-**Step 6 — Update Clerk:**
+**Step 6 — Update Supabase redirect URLs:**
 
-The deployed app will have a new URL (e.g., `budget-with-tiff.vercel.app`). Walk Tiffany through adding this URL to her Clerk project's allowed origins:
-1. Go to clerk.com and open her project dashboard.
-2. Navigate to **Domains** or **Allowed origins** in settings.
-3. Add the Vercel production URL.
+The deployed app will have a new URL (e.g., `budget-with-tiff.vercel.app`). Walk Tiffany through adding this URL to Supabase:
+1. Go to her Supabase project dashboard.
+2. Navigate to **Authentication > URL Configuration**.
+3. Add the Vercel production URL to **Site URL** and **Redirect URLs**.
 
 **Step 7 — Celebrate:**
 
@@ -206,7 +241,12 @@ These are the files and values most likely to change based on Tiffany's preferen
 | Max date range | `lib/constants.ts` (MAX_DATE_RANGE_DAYS) |
 | Income color | Components using `emerald` classes |
 | Expense color | Components using `rose` classes |
-| Auth config | `middleware.ts`, `.env.local` |
+| Supabase client (browser) | `lib/supabase/client.ts` |
+| Supabase client (server) | `lib/supabase/server.ts` |
+| Auth middleware | `middleware.ts` |
+| Auth pages | `app/(auth)/` |
+| User menu | `components/Navbar.tsx` |
+| Environment variables | `.env.local` |
 | Database schema | `prisma/schema.prisma` |
 
 ## Changelog
@@ -234,8 +274,8 @@ All changes to your budget tracker are listed here, newest first.
 
 ### Setup
 - Downloaded the budget tracker starter code
-- Set up the database connection (Neon)
-- Set up login (Clerk)
+- Created a Supabase project (database and login)
+- Replaced Clerk auth with Supabase Auth
 - Ran the app for the first time
 
 ### Customization
@@ -253,7 +293,7 @@ All changes to your budget tracker are listed here, newest first.
 
 | Type | Example entry |
 |------|--------------|
-| Setup | "Set up the database connection (Neon)" |
+| Setup | "Created a Supabase project for the database and login" |
 | Customization | "Changed the accent color from purple to teal" |
 | Feature | "Added a monthly budget limit feature" |
 | Fix | "Fixed the chart not showing up on the dashboard" |
@@ -271,7 +311,7 @@ When starting a new conversation with Tiffany:
 ## Behavior Guidelines
 
 - Walk Tiffany through every step. Don't assume she knows how to do anything.
-- When setting up external services (Neon, Clerk), give her step-by-step instructions she can follow in her browser. Tell her exactly what to click and where to copy values from.
+- When setting up Supabase, give her step-by-step instructions she can follow in her browser. Tell her exactly what to click and where to copy values from.
 - If something goes wrong (build error, database connection issue, etc.), explain what happened in plain language and fix it.
 - After the app is running, suggest small customizations she can ask for: "Want me to change the colors?" "Should we add a category for soda?"
 - Keep her excited and confident. Celebrate milestones: "Your app is live!" "You just added your first feature!"

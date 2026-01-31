@@ -134,7 +134,7 @@ Claude will:
    - What colors do you like?
    - What currency do you use?
    - What spending categories do you want (groceries, rent, entertainment, etc.)?
-3. **Walk you through creating two free accounts** — one for your database (where your data is stored) and one for login (so your data is private and secure). Claude will tell you exactly what to click.
+3. **Walk you through creating one free account** — a Supabase account that handles both your database (where your data is stored) and your login (so your data is private and secure). Claude will tell you exactly what to click.
 4. **Customize everything** — Claude applies your choices: colors, name, categories, and more.
 5. **Launch your app** — Claude starts the app and tells you where to open it in your browser.
 6. **Put it on the internet** — Once the app is working on your computer, Claude will offer to deploy it so you can access it from any device with a real web address.
@@ -209,7 +209,7 @@ Claude will walk you through setting up a free account on **Vercel** (a hosting 
 
 **The app won't start or shows errors:**
 - Ask Claude. Type "the app isn't starting, can you help?" and Claude will diagnose the problem.
-- Make sure you completed the database and login setup when Claude asked (the Neon and Clerk steps).
+- Make sure you completed the Supabase setup when Claude asked (database and login are both handled there).
 
 **I see a blank page at localhost:3000:**
 - Try refreshing the page.
@@ -217,7 +217,7 @@ Claude will walk you through setting up a free account on **Vercel** (a hosting 
 
 **The deployed app shows errors or a blank page:**
 - Make sure the environment variables were added to Vercel (Claude will have walked you through this).
-- Make sure the Vercel URL was added to your Clerk project's allowed origins.
+- Make sure the Vercel URL was added to your Supabase project's redirect URLs.
 - Ask Claude: "My deployed app isn't working, can you help me debug it?"
 
 **I'm stuck or confused:**
