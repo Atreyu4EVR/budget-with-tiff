@@ -137,6 +137,7 @@ Claude will:
 3. **Walk you through creating two free accounts** — one for your database (where your data is stored) and one for login (so your data is private and secure). Claude will tell you exactly what to click.
 4. **Customize everything** — Claude applies your choices: colors, name, categories, and more.
 5. **Launch your app** — Claude starts the app and tells you where to open it in your browser.
+6. **Put it on the internet** — Once the app is working on your computer, Claude will offer to deploy it so you can access it from any device with a real web address.
 
 You'll see your app at `http://localhost:3000` in your web browser.
 
@@ -159,6 +160,26 @@ Once the app is running:
 - Export your data to a spreadsheet (CSV)
 - Switch between light and dark mode
 - Manage your categories (add new ones, remove old ones)
+
+---
+
+## Step 8: Put Your App on the Internet (Optional)
+
+Once your app is working on your computer, you can put it on the internet so you can access it from your phone, another computer, or share it with others.
+
+When you're ready, just tell Claude:
+
+> I want to put my app on the internet.
+
+or:
+
+> Help me deploy my app.
+
+Claude will walk you through setting up a free account on **Vercel** (a hosting service) and uploading your app. At the end, you'll get a real web address like `budget-with-tiff.vercel.app` that works from any device.
+
+- The Vercel free plan is all you need — no credit card required.
+- Your data stays in the same database, whether you use the app locally or from the internet.
+- If you make changes later, you can re-deploy with one command and Claude will show you how.
 
 ---
 
@@ -193,6 +214,11 @@ Once the app is running:
 **I see a blank page at localhost:3000:**
 - Try refreshing the page.
 - Check if Claude is still setting things up — wait for Claude to say the app is ready.
+
+**The deployed app shows errors or a blank page:**
+- Make sure the environment variables were added to Vercel (Claude will have walked you through this).
+- Make sure the Vercel URL was added to your Clerk project's allowed origins.
+- Ask Claude: "My deployed app isn't working, can you help me debug it?"
 
 **I'm stuck or confused:**
 - Type "I'm stuck, can you help me figure out what to do next?" — Claude will walk you through it.

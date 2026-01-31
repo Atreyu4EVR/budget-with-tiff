@@ -54,7 +54,7 @@ After analyzing the codebase, enter plan mode. Present Tiffany with a personaliz
 
 **Group 1 — Branding and Identity:**
 
-- What do you want to call your app? (default: "Budget Tracker")
+- What do you want to call your app? (default: "Budget with Tiff")
 - Do you prefer a light theme, dark theme, or automatic (matches your device)?
 
 **Group 2 — Colors and Style:**
@@ -126,6 +126,69 @@ Once Tiffany approves the plan, make all the changes:
 - Run `npm run dev` to start the development server.
 - Tell Tiffany to open `http://localhost:3000` in her browser.
 - Walk her through the setup wizard (currency selection) that appears on first login.
+- Once she confirms the app is working locally, ask if she'd like to put it on the internet so she can access it from anywhere (proceed to Phase 5).
+
+### Phase 5: Deploy to Vercel
+
+This template is built for Vercel. Vercel is a free hosting service that puts the app on the internet with a real URL she can access from any device. Only proceed with this phase after the app is working locally and Tiffany confirms she wants to deploy.
+
+**Step 1 — Install the Vercel CLI:**
+
+Run `npm install -g vercel`. Explain to Tiffany: "This installs a small tool that uploads your app to the internet."
+
+**Step 2 — Log in to Vercel:**
+
+Run `vercel login`. This will open a browser window for Tiffany to create a free Vercel account (or sign in if she has one). Walk her through it:
+- She can sign up with her email, GitHub, or Google account.
+- The free Hobby plan is all she needs — no credit card required.
+- After signing in, the terminal will confirm she's logged in.
+
+**Step 3 — Deploy:**
+
+Run `vercel` from the project root. Walk Tiffany through the interactive prompts:
+- **Set up and deploy?** Yes
+- **Which scope?** Her account (the only option for a new account)
+- **Link to existing project?** No — create a new one
+- **Project name?** Use her app name (e.g., "budget-with-tiff")
+- **Directory with your code?** `.` (current directory, the default)
+- **Override settings?** No (the defaults are correct for Next.js)
+
+Vercel will build and deploy the app. It will output a preview URL.
+
+**Step 4 — Set environment variables on Vercel:**
+
+The deployed app needs the same environment variables as local. Run these commands (using the values from her `.env.local`):
+
+```
+vercel env add POSTGRES_PRISMA_URL production
+vercel env add POSTGRES_URL_NON_POOLING production
+vercel env add NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY production
+vercel env add CLERK_SECRET_KEY production
+```
+
+Each command will prompt for the value. Walk Tiffany through pasting each one. Explain: "These are the same connection codes we set up earlier — we're just telling the live version of your app how to find your database and login service."
+
+**Step 5 — Deploy to production:**
+
+Run `vercel --prod` to push a production deployment with the environment variables active.
+
+**Step 6 — Update Clerk:**
+
+The deployed app will have a new URL (e.g., `budget-with-tiff.vercel.app`). Walk Tiffany through adding this URL to her Clerk project's allowed origins:
+1. Go to clerk.com and open her project dashboard.
+2. Navigate to **Domains** or **Allowed origins** in settings.
+3. Add the Vercel production URL.
+
+**Step 7 — Celebrate:**
+
+Give Tiffany her live URL and explain:
+- She can open this URL from any device — phone, tablet, another computer.
+- She can share the URL with anyone she wants to use the app (they'll create their own login).
+- Any future changes she makes locally can be re-deployed by running `vercel --prod` again.
+
+**Re-deploying after changes:**
+
+If Tiffany makes changes later and wants to update the live app, just run `vercel --prod` again. Explain that it's like saving a new version to the internet.
 
 ## Key Customization Reference
 
