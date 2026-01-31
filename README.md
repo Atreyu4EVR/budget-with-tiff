@@ -1,6 +1,6 @@
 # Budget with Tiff
 
-A beginner-friendly guide to installing Claude Code and building your very own personal budget tracker — no coding experience required.
+A beginner-friendly guide to installing Claude Code and setting up your very own personal budget tracker — no coding experience required.
 
 ---
 
@@ -8,7 +8,7 @@ A beginner-friendly guide to installing Claude Code and building your very own p
 
 Claude Code is a tool that helps you build software by having a conversation. You describe what you want, and Claude writes the code for you. Think of it like having a patient, knowledgeable friend who happens to be a programmer.
 
-In this guide, you'll use Claude Code to build a **personal budget tracker** — a simple app where you can log your expenses, organize them by category, and see where your money is going. By the end, you'll have a working app that runs right in your web browser.
+In this guide, you'll use Claude Code to set up a **personal budget tracker** — a real app with user login, expense tracking, charts, and more. Claude will walk you through every step, ask you some questions about your preferences (colors, categories, currency), and customize the app to fit your style.
 
 **All you need is:**
 
@@ -53,7 +53,35 @@ After signing in, look for the **Code** tab in the top left of the app window an
 
 ---
 
-## Step 3: Get This Project
+## Step 3: Install Node.js
+
+Your budget tracker needs Node.js to run. Node.js is a program that runs the code behind your app — you install it once and don't need to think about it again.
+
+### On Mac
+
+1. Go to [nodejs.org](https://nodejs.org).
+2. Click the **LTS** (Long Term Support) download button — it's the one on the left.
+3. Open the downloaded `.pkg` file and follow the installer steps.
+4. To confirm it worked, open **Terminal** (search for "Terminal" using Spotlight with `Cmd + Space`) and type:
+   ```
+   node --version
+   ```
+   You should see a version number like `v22.x.x`. If you do, you're good.
+
+### On Windows
+
+1. Go to [nodejs.org](https://nodejs.org).
+2. Click the **LTS** download button.
+3. Run the installer (`.msi` file) and follow the prompts. Leave all the default options checked.
+4. To confirm it worked, open **Command Prompt** (search for "cmd" in the Start menu) and type:
+   ```
+   node --version
+   ```
+   You should see a version number. If you do, you're all set.
+
+---
+
+## Step 4: Get This Project
 
 You don't need Git or any developer tools. Here's how to download this project as a ZIP file:
 
@@ -71,66 +99,76 @@ You don't need Git or any developer tools. Here's how to download this project a
 | File | What it does |
 |------|-------------|
 | `README.md` | This guide you're reading right now. |
-| `CLAUDE.md` | Instructions that tell Claude Code what to build. You don't need to edit this — it's already set up for you. |
+| `CLAUDE.md` | Instructions that tell Claude Code what to build and how to customize it for you. You don't need to edit this. |
 
 ---
 
-## Step 4: Open the Project in Claude Code
+## Step 5: Open the Project in Claude Code
 
 1. In the Claude desktop app, make sure you're on the **Code** tab.
 2. Click **Select folder** (or the equivalent option to open a project).
-3. Navigate to the `budget-with-tiff` folder you extracted in Step 3 and select it.
-4. Claude Code will read the `CLAUDE.md` file automatically. This gives Claude all the context it needs to help you build your budget tracker.
+3. Navigate to the `budget-with-tiff` folder you extracted in Step 4 and select it.
+4. Claude Code will read the `CLAUDE.md` file automatically. This gives Claude all the context it needs to set up and customize your budget tracker.
 
-You're now ready to start building.
-
----
-
-## Step 5: Start Building
-
-Now for the fun part. In the text input area at the bottom of Claude Code, type a message to tell Claude what you'd like to do. Here are some prompts to get you started:
-
-**Prompt 1 — Build the app:**
-
-> Help me set up my budget tracker app. Create a simple, clean expense tracker where I can add expenses with an amount, category, and date.
-
-**Prompt 2 — Add more features:**
-
-> Add a feature that shows my total spending broken down by category, with a simple chart.
-
-**Prompt 3 — Customize the look:**
-
-> Make the design more colorful and modern. Use soft, friendly colors.
-
-**Prompt 4 — Add editing:**
-
-> Let me edit or delete expenses after I've added them.
-
-Claude will write the code and show you exactly what it plans to create or change. You'll have the option to **accept** or **reject** each change before it's applied.
-
-**The process is iterative:** ask for something, review what Claude builds, then ask for adjustments. You can go back and forth as many times as you like.
+You're now ready to start.
 
 ---
 
-## Step 6: View Your App
+## Step 6: Start Building
 
-After Claude creates your files, you'll have an `index.html` file in your project folder. To see your app:
+Type one of these messages to Claude to kick things off:
 
-1. Open the `budget-with-tiff` folder on your computer.
-2. Find the file called `index.html`.
-3. Double-click it — it will open in your default web browser (Chrome, Safari, Edge, Firefox, etc.).
+> Help me set up my budget tracker.
 
-That's it. Your budget tracker is now running in your browser. Every time Claude makes changes and you accept them, just refresh the browser page to see the updates.
+or simply:
+
+> Let's get started!
+
+### What happens next
+
+Claude will:
+
+1. **Download the starter code** — a pre-built budget tracker template with all the features you need.
+2. **Ask you some questions** — Claude will ask about your preferences:
+   - What do you want to call your app?
+   - What colors do you like?
+   - What currency do you use?
+   - What spending categories do you want (groceries, rent, entertainment, etc.)?
+3. **Walk you through creating two free accounts** — one for your database (where your data is stored) and one for login (so your data is private and secure). Claude will tell you exactly what to click.
+4. **Customize everything** — Claude applies your choices: colors, name, categories, and more.
+5. **Launch your app** — Claude starts the app and tells you where to open it in your browser.
+
+You'll see your app at `http://localhost:3000` in your web browser.
+
+---
+
+## Step 7: Use Your App
+
+Once the app is running:
+
+1. **Sign up** — Create an account using the login screen (this is your personal app login, separate from your Claude account).
+2. **Pick your currency** — The setup wizard will ask you to choose.
+3. **Start tracking** — Add your first expense or income entry.
+
+### What you can do in the app
+
+- Add expenses and income with amounts, categories, and dates
+- See your spending broken down by category with charts
+- View your full transaction history
+- Filter and sort transactions
+- Export your data to a spreadsheet (CSV)
+- Switch between light and dark mode
+- Manage your categories (add new ones, remove old ones)
 
 ---
 
 ## Tips for Talking to Claude
 
-- **Be specific.** Instead of "make it better," try "make the font bigger and add more space between the expense items."
-- **It's okay to say no.** If Claude builds something you don't like, say "that's not what I meant" or "undo that" and try explaining it differently.
-- **Ask questions.** If you're curious about how something works, ask Claude to explain it in simple terms.
-- **Think out loud.** You can describe what you want in plain language — "I want a dropdown menu where I pick a category like food, rent, or entertainment."
-- **Build one piece at a time.** Start simple and add features gradually. You don't need to describe the whole app upfront.
+- **Be specific.** Instead of "make it better," try "make the header color blue" or "add a category for coffee shops."
+- **It's okay to say no.** If Claude builds something you don't like, say "that's not what I meant" and try explaining it differently.
+- **Ask questions.** If you're curious about how something works, ask Claude to explain it simply.
+- **Think out loud.** Describe what you want in plain language — "I want a section that shows how much I spent this month."
+- **Ask for changes anytime.** You can always ask Claude to change colors, add features, or rearrange things.
 
 ---
 
@@ -140,34 +178,38 @@ That's it. Your budget tracker is now running in your browser. Every time Claude
 - Make sure you're signed in and have a paid plan (Pro or Max).
 - Try closing and reopening the app.
 
+**"node" is not recognized or command not found:**
+- Node.js might not be installed. Go back to Step 3 and install it.
+- On Windows, try closing and reopening Command Prompt after installing Node.js.
+
 **The app won't open my folder:**
 - Make sure you're selecting the folder itself, not a file inside it.
 - On Mac, if you see a security warning, go to **System Settings > Privacy & Security** and allow Claude.
 
-**I don't see `index.html` after Claude built the app:**
-- Check that you accepted Claude's changes (look for the accept/approve button).
-- Look inside the `budget-with-tiff` folder — the file should be right there.
+**The app won't start or shows errors:**
+- Ask Claude. Type "the app isn't starting, can you help?" and Claude will diagnose the problem.
+- Make sure you completed the database and login setup when Claude asked (the Neon and Clerk steps).
 
-**The app looks broken in my browser:**
-- Try a different browser (Chrome usually works best).
-- Make sure you're opening the latest version of the file (refresh with `Ctrl+R` or `Cmd+R`).
+**I see a blank page at localhost:3000:**
+- Try refreshing the page.
+- Check if Claude is still setting things up — wait for Claude to say the app is ready.
 
 **I'm stuck or confused:**
-- Ask Claude. Seriously — type "I'm stuck, can you help me figure out what to do next?" and Claude will walk you through it.
+- Type "I'm stuck, can you help me figure out what to do next?" — Claude will walk you through it.
 
 ---
 
 ## What's Next
 
-Once your budget tracker is up and running, here are some ideas to keep going:
+Once your budget tracker is up and running, here are some things you can ask Claude to do:
 
-- **Customize categories:** Add your own spending categories (groceries, subscriptions, coffee, etc.)
-- **Add income tracking:** Track money coming in, not just going out.
-- **Monthly summaries:** Ask Claude to add a view that shows spending by month.
-- **Export to CSV:** Save your data as a spreadsheet file.
-- **Dark mode:** Ask Claude to add a dark color theme.
+- **New categories:** "Add a category for coffee shops with a coffee emoji."
+- **Change the look:** "Make the app more colorful" or "Switch to a purple theme."
+- **Monthly goals:** "Add a feature where I can set a monthly budget limit."
+- **Recurring expenses:** "Let me mark some expenses as recurring so I don't have to re-enter them."
+- **Charts:** "Show me a bar chart of my spending over the last 6 months."
 
-You can also try entirely new projects:
+You can also try building entirely new projects:
 
 - A to-do list app
 - A recipe organizer
