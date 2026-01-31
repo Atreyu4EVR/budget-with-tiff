@@ -209,6 +209,65 @@ These are the files and values most likely to change based on Tiffany's preferen
 | Auth config | `middleware.ts`, `.env.local` |
 | Database schema | `prisma/schema.prisma` |
 
+## Changelog
+
+This project uses a `CHANGELOG.md` file to track every change made to the app. This is important because Tiffany may come back across multiple sessions, and the changelog gives both her and Claude a clear history of what's been done.
+
+### Rules
+
+- The changelog file lives at the project root: `CHANGELOG.md`
+- Create the file during Phase 4 (after the initial customizations) with the first set of entries.
+- **After every change you make to the project, update the changelog.** This includes setup steps, customizations, feature additions, bug fixes, style changes, and deployments.
+- Use plain, non-technical language that Tiffany can understand. She should be able to read the changelog and know exactly what changed.
+- **At the start of every new session**, read `CHANGELOG.md` first to understand what has already been done. This prevents re-doing work or asking questions that have already been answered.
+
+### Format
+
+Use this format. Group entries by date. Newest entries go at the top.
+
+```markdown
+# Changelog
+
+All changes to your budget tracker are listed here, newest first.
+
+## Jan 31, 2026
+
+### Setup
+- Downloaded the budget tracker starter code
+- Set up the database connection (Neon)
+- Set up login (Clerk)
+- Ran the app for the first time
+
+### Customization
+- Changed the app name to "Tiff's Budget"
+- Updated colors to a soft pastel theme (lavender accent)
+- Set default currency to USD
+- Added spending categories: Groceries, Rent, Dining Out, Coffee, Subscriptions
+
+### Deployment
+- Deployed the app to Vercel
+- Live at: https://budget-with-tiff.vercel.app
+```
+
+### What to log
+
+| Type | Example entry |
+|------|--------------|
+| Setup | "Set up the database connection (Neon)" |
+| Customization | "Changed the accent color from purple to teal" |
+| Feature | "Added a monthly budget limit feature" |
+| Fix | "Fixed the chart not showing up on the dashboard" |
+| Style | "Made the buttons bigger and easier to tap on mobile" |
+| Deployment | "Re-deployed to Vercel with the latest changes" |
+
+### Session startup
+
+When starting a new conversation with Tiffany:
+
+1. Read `CHANGELOG.md` to understand the current state of the project.
+2. Briefly greet Tiffany and recap what was done last time based on the changelog. For example: "Last time we set up your app and deployed it. You've got categories for Groceries, Rent, and Coffee. What would you like to work on today?"
+3. This recap helps Tiffany remember where she left off without having to explain everything again.
+
 ## Behavior Guidelines
 
 - Walk Tiffany through every step. Don't assume she knows how to do anything.
