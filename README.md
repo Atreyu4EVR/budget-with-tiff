@@ -14,25 +14,11 @@ In this guide, you'll use Claude Code to set up a **personal budget tracker** �
 
 - A computer (Mac or Windows)
 - An internet connection
-- A Claude account (we'll set that up below)
+- A Claude account (you already have one)
 
 ---
 
-## Step 1: Create Your Claude Account
-
-Before you can use Claude Code, you need a Claude account with a paid plan.
-
-1. Go to [claude.ai](https://claude.ai) in your web browser.
-2. Click **Sign Up** and create an account using your email (or sign in with Google/Apple).
-3. Subscribe to a **Claude Pro** or **Claude Max** plan.
-   - Claude Code is included with your paid subscription — no separate API key or extra setup needed.
-   - You can view plan options at [claude.ai/pricing](https://claude.ai/pricing).
-
-Once you're signed up and subscribed, you're ready to install the app.
-
----
-
-## Step 2: Install Claude Code
+## Step 1: Install Claude Code
 
 ### On Mac
 
@@ -40,20 +26,20 @@ Once you're signed up and subscribed, you're ready to install the app.
 2. Open the downloaded `.dmg` file.
 3. Drag **Claude** into your **Applications** folder.
 4. Open Claude from your Applications folder (or search for "Claude" using Spotlight with `Cmd + Space`).
-5. Sign in with the account you created in Step 1.
+5. Sign in with your Claude account.
 
 ### On Windows
 
 1. Download the Claude desktop app from [claude.ai/download](https://claude.ai/download).
 2. Run the installer (`.exe` file) and follow the on-screen prompts.
 3. Once installed, open Claude from the Start menu (search for "Claude").
-4. Sign in with the account you created in Step 1.
+4. Sign in with your Claude account.
 
 After signing in, look for the **Code** tab in the top left of the app window and click it. If prompted to complete sign-in, follow the instructions and restart the app.
 
 ---
 
-## Step 3: Install Node.js
+## Step 2: Install Node.js
 
 Your budget tracker needs Node.js to run. Node.js is a program that runs the code behind your app — you install it once and don't need to think about it again.
 
@@ -81,7 +67,7 @@ Your budget tracker needs Node.js to run. Node.js is a program that runs the cod
 
 ---
 
-## Step 4: Get This Project
+## Step 3: Get This Project
 
 You don't need Git or any developer tools. Here's how to download this project as a ZIP file:
 
@@ -103,18 +89,18 @@ You don't need Git or any developer tools. Here's how to download this project a
 
 ---
 
-## Step 5: Open the Project in Claude Code
+## Step 4: Open the Project in Claude Code
 
 1. In the Claude desktop app, make sure you're on the **Code** tab.
 2. Click **Select folder** (or the equivalent option to open a project).
-3. Navigate to the `budget-with-tiff` folder you extracted in Step 4 and select it.
+3. Navigate to the `budget-with-tiff` folder you extracted in Step 3 and select it.
 4. Claude Code will read the `CLAUDE.md` file automatically. This gives Claude all the context it needs to set up and customize your budget tracker.
 
 You're now ready to start.
 
 ---
 
-## Step 6: Start Building
+## Step 5: Start Building
 
 Type one of these messages to Claude to kick things off:
 
@@ -143,7 +129,7 @@ You'll see your app at `http://localhost:3000` in your web browser.
 
 ---
 
-## Step 7: Use Your App
+## Step 6: Use Your App
 
 Once the app is running:
 
@@ -163,7 +149,7 @@ Once the app is running:
 
 ---
 
-## Step 8: Put Your App on the Internet (Optional)
+## Step 7: Put Your App on the Internet (Optional)
 
 Once your app is working on your computer, you can put it on the internet so you can access it from your phone, another computer, or share it with others.
 
@@ -200,7 +186,7 @@ Claude will walk you through setting up a free account on **Vercel** (a hosting 
 - Try closing and reopening the app.
 
 **"node" is not recognized or command not found:**
-- Node.js might not be installed. Go back to Step 3 and install it.
+- Node.js might not be installed. Go back to Step 2 and install it.
 - On Windows, try closing and reopening Command Prompt after installing Node.js.
 
 **The app won't open my folder:**
